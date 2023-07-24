@@ -1,0 +1,14 @@
+.textbox {
+    margin-left: 24px;
+}
+
+.textbox input[ type=text ] {
+    background-color: #383837;
+    border: 1px solid #333;
+    color: #d4d4d3;
+}
+
+.textbox input[ type=text ]:focus {
+    border: 1px solid #444;
+    outline: none;
+}

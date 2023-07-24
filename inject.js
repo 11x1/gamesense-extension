@@ -1,4 +1,45 @@
 // Todo: Add cool startup message
+function show_startup_message( ) {
+    const message = `%cWEAK DOGS ONLY USE ALWAYSLOSS.CC... STRONG MEN USE GAMESENSICAL.PUBS (◣_◢)`;
+
+    const messagestyle = `
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 22px;
+        letter-spacing: 1px;
+        word-spacing: 2px;
+        color: #95A715;
+        font-weight: 400;
+        text-decoration: rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: small-caps;
+        text-transform: none;
+    `;
+
+    console.log( message, messagestyle );
+}
+show_startup_message( );
+
+function show_status_message( message, status, on_off ) {
+    const statusstyle = `
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 13px;
+        letter-spacing: 0px;
+        word-spacing: 0px;
+        color: #AFAFAF;
+        font-weight: 400;
+        text-decoration: rgb(68, 68, 68);
+        font-style: normal;
+        font-variant: normal;
+        text-transform: none;
+    `;
+
+    const on_off_style = statusstyle + `
+        color: ${ on_off ? '#00FF00' : '#FF0000' };
+    `;
+
+    console.log( `%c${ message }`+`%c${ status }`, statusstyle, on_off_style );
+}
+
 
 function reveal_member_uids( ) {
     let posts = document.getElementsByClassName( 'blockpost' );
@@ -79,21 +120,26 @@ function hide_username( ) {
     } );
 }
 
-console.log( 'Hello from inject.js' );
 chrome.storage.sync.get( [ 'show_uid' ], ( result ) => { 
-    if ( result[ 'show_uid' ] == 'show_uid' ) {
-        reveal_member_uids( );
-    }
+    let enabled = result[ 'show_uid' ] !== 'none';
+
+    show_status_message( 'User ID Reveal: ', enabled ? 'enabled' : 'disabled', enabled );
+    if ( enabled  ) reveal_member_uids( );
 } );
 
 chrome.storage.sync.get([ 'custom_logo' ], ( result ) => {
-    if ( result[ 'custom_logo' ] == 'custom_logo' ) {
-        switch_to_custom_logo( );
-    }
+    let enabled = result[ 'custom_logo' ] !== 'none';
+
+    show_status_message( 'Custom Logo: ', enabled ? 'enabled' : 'disabled', enabled );
+    if ( enabled ) switch_to_custom_logo( );
 } );
 
 chrome.storage.sync.get([ 'hide_username' ], ( result ) => {
-    if ( result[ 'hide_username' ] == 'hide_username' ) {
-        hide_username( );
-    }
+    let enabled = result[ 'hide_username' ] !== 'none';
+    
+    chrome.storage.sync.get([ 'custom_username_string' ], ( result ) => {
+        show_status_message( 'Hide Username: ', enabled ? result[ 'custom_username_string' ] : 'disabled', enabled );
+    } );
+
+    if ( enabled ) hide_username( );
 } );

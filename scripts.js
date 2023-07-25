@@ -2,6 +2,7 @@ const reveal_uid = document.getElementById( 'reveal__member__uid' );
 const custom_logo = document.getElementById( 'custom__header__image' );
 const hide_username = document.getElementById( 'hide__username' );
 const custom_username_string = document.getElementById( 'custom__username' );
+const snake_minigame = document.getElementById( 'snake__minigame' );
 
 function restoreOptions( ) {
     chrome.storage.sync.get({ 'show_uid' : 'none'}, function (result) {
@@ -26,6 +27,10 @@ function restoreOptions( ) {
     chrome.storage.sync.get({ 'custom_username_string' : 'none'}, function (result) {
         custom_username_string.value = result[ 'custom_username_string' ];
     } );
+
+    chrome.storage.sync.get({ 'snake_minigame' : 'none'}, function (result) {
+        snake_minigame.checked = result[ 'snake_minigame' ] == 'none' ? false : true;
+    } );
 }
 
 restoreOptions();
@@ -48,4 +53,9 @@ hide_username.addEventListener('click', ( ) => {
 
 custom_username_string.addEventListener('change', ( ) => {
     chrome.storage.sync.set({ 'custom_username_string' : custom_username_string.value }, ( ) => { } );
+} );
+
+snake_minigame.addEventListener('click', ( ) => {
+    let new_state = snake_minigame.checked ? 'snake_minigame' : 'none';
+    chrome.storage.sync.set({ 'snake_minigame' : new_state }, ( ) => { } );
 } );
